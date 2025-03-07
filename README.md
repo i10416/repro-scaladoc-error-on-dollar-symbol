@@ -1,7 +1,7 @@
 ## About
 This project reproduces suspicious scaladoc behavior
-when there are both an object and a package object of the same name with `$` suffix
-__whose body has a reference to the object__
+when there are both an object whose name contains `$` and
+a package object that references the object.
 
 Since Scala 3.6.3, scaladoc fails to generate doc due to the following error.
 
@@ -23,7 +23,9 @@ In the same situation, scaladoc(Scala 3.3.1) also crashes and emits the followin
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.createSymbol(TreeUnpickler.scala:560)
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.symbolAtCurrent(TreeUnpickler.scala:282)
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.indexStats(TreeUnpickler.scala:764)
-[error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.indexStats$$anonfun$1$$anonfun$1(TreeUnpickler.scala:774)
+[error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.
+
+$$anonfun$1$$anonfun$1(TreeUnpickler.scala:774)
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.processPackage(TreeUnpickler.scala:794)
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.processPackage(TreeUnpickler.scala:790)
 [error]         at dotty.tools.dotc.core.tasty.TreeUnpickler$TreeReader.indexStats(TreeUnpickler.scala:774)
@@ -64,3 +66,10 @@ After quick investigation, there are some issues presumably relevant to this cas
 
 - https://github.com/scala/scala3/issues/19702
 - https://github.com/scala/scala3/issues/22447
+
+## Note
+According to https://github.com/scala/scala3/pull/17594, Scala 3 compiler loads .tasty file first and then
+load .class file to check consistency.
+
+## Refs
+- Special handling of classes with `$` mark: https://github.com/scala/scala3/blob/8b04ba8ba0c9936297d9ecdf2c3c794dfc1eebd8/compiler/src/dotty/tools/dotc/classpath/FileUtils.scala#L122

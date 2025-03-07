@@ -4,20 +4,17 @@ package com.example
 
 // - A.class
 // - A.tasty
-// - A$.class
+// - A$.class: module class of A
 // object A
 //
 // ---------------------------------------------------------------
-// - A$.class
+// - A$.class: class of A$
 // - A$.tasty
-// - A$$.class
+// - A$$.class: module class of A$
 object A$
 
-// ---------------------------------------------------------------
-// - A/package.class
-// - A/package.tasty
-// - A/package$.class
-package object A {
+
+package object B {
   // with this line, scaladoc fails to generate doc,
   // but without this line, scaladoc won't fail
   val _ = A$
